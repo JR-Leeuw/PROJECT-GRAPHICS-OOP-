@@ -56,10 +56,33 @@
                 tractor.position.x = 5;
                 scene.add(tractor);
 
+                NOVELO_SHEEP = new THREE.Group();
+                NOVELO_SHEEP.position.z = 2;
+                NOVELO_SHEEP.position.y = 1.5;
+                NOVELO_SHEEP.position.x = 10;
+                scene.add(NOVELO_SHEEP);
+
+                COW = new THREE.Group();
+                COW.position.z = 6;
+                COW.position.y = 0;
+                COW.position.x = 13;
+                scene.add(COW);
+
                 LoadOBJModel("Models/tractor/", "tractor.obj", "Models/tractor/", "tractor.mtl", (mesh) => {
                     mesh.scale.set(0.05, 0.05, 0.05);
                     tractor.add(mesh);
                     atractor = tractor;
+                });
+
+                LoadOBJModel("Models/NOVELO_SHEEP/", "NOVELO_SHEEP.obj", "Models/NOVELO_SHEEP/", "NOVELO_SHEEP.mtl", (mesh) => {
+                    mesh.scale.set(0.005, 0.005, 0.005);
+                    NOVELO_SHEEP.add(mesh);
+                    aNOVELO_SHEEP = NOVELO_SHEEP;
+                });
+                LoadOBJModel("Models/Cow_obj/", "Cow.obj", "Models/Cow_Obj/", "Cow.mtl", (mesh) => {
+                    mesh.scale.set(0.25, 0.25, 0.25);
+                    COW.add(mesh);
+                    aCOW = COW;
                 });
             }
 

@@ -12663,23 +12663,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lhmbe\\.nuget\\packages\\": {},
+    "C:\\Users\\jaspe\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lhmbe\\Desktop\\AmazonSimulator VS\\AmazonSimulator VS\\AmazonSimulator VS.csproj",
+      "projectUniqueName": "C:\\Users\\jaspe\\OneDrive\\Documenten\\GitHub\\PROJECT-GRAPHICS-OOP-\\AmazonSimulator VS\\AmazonSimulator VS.csproj",
       "projectName": "AmazonSimulator VS",
-      "projectPath": "C:\\Users\\lhmbe\\Desktop\\AmazonSimulator VS\\AmazonSimulator VS\\AmazonSimulator VS.csproj",
-      "packagesPath": "C:\\Users\\lhmbe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lhmbe\\Desktop\\AmazonSimulator VS\\AmazonSimulator VS\\obj\\",
+      "projectPath": "C:\\Users\\jaspe\\OneDrive\\Documenten\\GitHub\\PROJECT-GRAPHICS-OOP-\\AmazonSimulator VS\\AmazonSimulator VS.csproj",
+      "packagesPath": "C:\\Users\\jaspe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jaspe\\OneDrive\\Documenten\\GitHub\\PROJECT-GRAPHICS-OOP-\\AmazonSimulator VS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\lhmbe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jaspe\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
