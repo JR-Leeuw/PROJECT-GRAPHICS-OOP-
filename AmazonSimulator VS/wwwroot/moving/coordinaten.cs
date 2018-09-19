@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 namespace moving
 {
     public class coordinaten
-{
-}
+    {
+        public int X;
+        public int Z;
+
+        public coordinaten(int X, int Z)
+        {
+            this.X = X;
+            this.Z = Z;
+        }
+
+
+
+    }
 }
