@@ -9,19 +9,34 @@ namespace Models {
         private List<Robot> worldObjects = new List<Robot>();
         private List<IObserver<Command>> observers = new List<IObserver<Command>>();
 
-        double xpos;
-        double ypos;
-        double zpos;
+        double xpos = 10;
+        double ypos = 0.5;
+        double zpos = 10;
+        double xpos2 = 20;
+        double ypos2 = 0.5;
+        double zpos2 = 10;
+        double ry = 0;
+        double ry2 = 0;
         Robot r;
+        Robot a;
 
 
         public World() {
             r = CreateRobot(0,0,0);
-            r.Move(4.6, 0, 13);
+            r.Move(0, 0, 0);
+            a = CreateRobot2(0, 0, 0);
+            a.Move(0, 0, 0);
         }
 
         private Robot CreateRobot(double x, double y, double z) {
             Robot r = new Robot(x,y,z,0,0,0);
+            worldObjects.Add(r);
+            return r;
+        }
+
+        private Robot CreateRobot2(double x, double y, double z)
+        {
+            Robot r = new Robot(x, y, z, 0, 0, 0);
             worldObjects.Add(r);
             return r;
         }
@@ -49,9 +64,13 @@ namespace Models {
         }
 
         public bool Update(int tick)
-        {
-            xpos += 0.1;
+        {   
+            xpos += 0.01;
+            ry += 0.01;
+            r.Rotate(0, ry, 0);
+            zpos2 += 0.01;
             r.Move(xpos, ypos, zpos);
+            a.Move(xpos2, ypos2, zpos2);
             for (int i = 0; i < worldObjects.Count; i++) {
                 Robot u = worldObjects[i];
 
