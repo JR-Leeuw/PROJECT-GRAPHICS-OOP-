@@ -16,6 +16,16 @@ namespace moving
             this.Z = Z;
         }
 
+        public int GetXpos()
+        {
+            return X;
+        }
+        public int GetZpos()
+        {
+            return Z;
+        }
+
+
 
 
     }

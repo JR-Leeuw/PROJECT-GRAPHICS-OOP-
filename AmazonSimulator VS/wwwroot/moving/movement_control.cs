@@ -18,12 +18,16 @@ namespace moving
         switch (caseSwitch) 
         {
             case 1;
-            if (begin = "A" && eind == "C") 
+            if (begin == "A" && eind == "C") 
+            {
+                
+            }
+            case 2;
+            if (begin == "A" && eind == "C") 
             {
                 
             }
         }
-
     }
 }
 
