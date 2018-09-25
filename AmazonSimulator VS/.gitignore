@@ -1,0 +1,6 @@
+
+*.ide-wal
+*.ide-shm
+*.lock
+.vs/AmazonSimulator VS/v15/.suo
+.vs/AmazonSimulator VS/DesignTimeBuild/.dtbcache

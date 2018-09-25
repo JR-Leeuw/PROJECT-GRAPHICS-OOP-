@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SimulationView</title>
+</head>
+
+<body style="margin:0px;padding:0px;overflow:hidden;">
+
+
+    <script>
+        function parseCommand(input = "") {
+            return JSON.parse(input);
+        }
+
+        class Tractor extends THREE.Group {
+            constuctor() {
+                super();
+
+                this._fpsCarTarget = undefined;
+                this._loadState = LoadStates.NOT_LOADING;
+
+                this.init();
+            }
+
+            get loadState() {
+                return._loadState;
+            }
+        }
+
+        const LoadStates =
+            Object.freeze(
+                {
+                    "NOT_LOADING": 1,
+                    "LOADING": 2,
+                    "LOADED": 3
+                }); 
+
+        var exampleSocket;
+
+        window.onload = function () {
+            var camera, scene, renderer;
+            var cameraControls;
+
+            var worldObjects = {};
+
+            function init() {
+                camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+                cameraControls = new THREE.OrbitControls(camera);
+                camera.position.z = 15;
+                camera.position.y = 5;
+                camera.position.x = 15;
+                cameraControls.update();
+                scene = new THREE.Scene();
+
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight + 5);
+                document.body.appendChild(renderer.domElement);
+
+                window.addEventListener('resize', onWindowResize, false);
+
+                var geometry = new THREE.BoxGeometry(30, 30, 3);
+                //var material = new THREE.MeshBasicMaterial({ color: 0xA0522D, side: THREE.DoubleSide });
+                var cubeMaterials = [
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/grass.jpg"), side: THREE.DoubleSide }), //LEFT
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/grass.jpg"), side: THREE.DoubleSide }), //RIGHT
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/grass.jpg"), side: THREE.DoubleSide }), //TOP
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/grass.jpg"), side: THREE.DoubleSide }), //BOTTOM
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/grass.jpg"), side: THREE.DoubleSide }), //FRONT
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/grass.jpg"), side: THREE.DoubleSide }), //BACK
+                ];
+                var material = new THREE.MeshFaceMaterial(cubeMaterials);
+                var plane = new THREE.Mesh(geometry, material);
+                plane.rotation.x = Math.PI / 2.0;
+                plane.position.x = 0;
+                plane.position.z = 0;
+                plane.position.y = -1;
+                scene.add(plane);
+                 
+                var geometry2 = new THREE.CubeGeometry(512, 512, 512);
+                var cubeMaterials2 = [
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/cloudtop_lf.png"), side: THREE.DoubleSide }), //LEFT
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/cloudtop_rt.png"), side: THREE.DoubleSide }), //RIGHT
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/cloudtop_up.png"), side: THREE.DoubleSide }), //TOP
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/cloudtop_dn.png"), side: THREE.DoubleSide }), //BOTTOM
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/cloudtop_ft.png"), side: THREE.DoubleSide }), //FRONT
+                    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/cloudtop_bk.png"), side: THREE.DoubleSide }), //BACK
+
+                ];
+                var material2 = new THREE.MeshFaceMaterial(cubeMaterials2);
+                var skybox = new THREE.Mesh(geometry2, material2);
+                skybox.position.x = 0;
+                skybox.position.z = 0;
+                skybox.position.y = 0;
+                scene.add(skybox);
+
+                var light = new THREE.PointLight(0x999999, 2, 100);
+                light.position.set(50, 50, 50);
+                scene.add(light);
+
+                
+                var lightScene = new THREE.PointLight(0x999999, 2, 100);
+                lightScene.position.set(0, 5, 0);
+                scene.add(lightScene);
+                
+                
+                
+
+                tractor = new THREE.Group();
+                tractor.position.z = 8;
+                tractor.position.y = 0.5;
+                tractor.position.x = 50;
+                scene.add(tractor);
+
+                
+
+                LoadOBJModel("Models/tractor/", "tractor.obj", "Models/tractor/", "tractor.mtl", (mesh) => {
+                    mesh.scale.set(0.2, 0.2, 0.2);
+                    tractor.add(mesh);
+                    atractor = tractor;
+
+                    addPointLight(tractor, 0xffffff, -5, 17, 0, 1, 10);
+
+                    addPointLight(tractor, 0xffffff, -19, 8.5, -6.5, 2, 5);
+                    addPointLight(tractor, 0xffffff, -19, 8.5, 6.5, 2, 5);
+                    addSpotLight(tractor, 0xffffff, -10, 9, -6.5, -20, 8.5, -6.5);
+                    addSpotLight(tractor, 0xffffff, -10, 9, 6.5, -20, 8.5, 6.5);
+
+                    addPointLight(tractor, 0xff4751, 14, 8.5, -6.5, 2, 7);
+                    addPointLight(tractor, 0xff4751, 14, 8.5, 6.5, 2, 7);
+
+                    var g = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+                    var m = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                    tractor._fpsCarTarget = new THREE.Mesh(g, m);
+                    tractor._fpsCarTarget.position.set(-25, 10, 4;
+                    tractor._fpsCarTarget.visible = false;
+                    tractor.add(tractor._fpsCarTarget);
+
+                    tractor._loadState = LoadStates.LOADED;
+
+                   
+
+                    
+                });
+
+            }
+
+            /**
+* Load an OBJ model from the server
+* @param {string} modelPath The path to the model on the server.
+* @param {string} modelName The name of the model inside the path (OBJ file)
+* @param {string} texturePath The path to the texture of the model
+* @param {string} tetureName The name of the texture of the model (MTL file)
+* @param {function{THREE.Mesh}: void} onload The function to be called once the model is loaded and available
+*/
+            function LoadOBJModel(modelPath, modelName, texturePath, textureName, onload) {
+                new THREE.MTLLoader()
+                    .setPath(texturePath)
+                    .load(textureName, function (materials) {
+
+                        materials.preload();
+
+                        new THREE.OBJLoader()
+                            .setPath(modelPath)
+                            .setMaterials(materials)
+                            .load(modelName, function (object) {
+                                onload(object);
+                            }, function () { }, function (e) { console.log("Error loading model"); console.log(e); });
+                    });
+            }
+            function addPointLight(object, color, x, y, z, intensity, distance) {
+                var light = new THREE.PoinLight(color, intensity, distance);
+                light.position.set(x, y, z);
+                object.add(light);
+            }
+            function addSpotLight(object,color, x, y, z, tx, ty, tz) {
+                var spotLight = new THREE.SpotLight(color, 1, 100, 0.5, 2, 2);
+                spotLight.position.set(x, y, z);
+
+                spotLight.castShadow = true;
+
+                object.add(spotlight);
+
+                object.add(spotLight.target);
+                spotLight.target.position.set(tx, ty, tz);
+            }
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                cameraControls.update();
+                renderer.render(scene, camera);
+            }
+
+            function move() {
+                xpos += 1;
+                var xpos = 20;
+                var ypos = 0.5;
+                var zpos = 20;
+                tractor.move(xpos, ypos, zpos);
+            }
+
+            exampleSocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/connect_client");
+            exampleSocket.onmessage = function (event) {
+                var command = parseCommand(event.data);
+
+                if (command.command == "update") {
+                    if (Object.keys(worldObjects).indexOf(command.parameters.guid) < 0) {
+                        if (command.parameters.type == "robot") {
+                            //move();
+                            var geometry = new THREE.BoxGeometry(0.9, 0.3, 0.9);
+                            var cubeMaterials = [
+                                new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/robot_side.png"), side: THREE.DoubleSide }), //LEFT
+                                new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/robot_side.png"), side: THREE.DoubleSide }), //RIGHT
+                                new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/robot_top.png"), side: THREE.DoubleSide }), //TOP
+                                new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/robot_bottom.png"), side: THREE.DoubleSide }), //BOTTOM
+                                new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/robot_front.png"), side: THREE.DoubleSide }), //FRONT
+                                new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/robot_front.png"), side: THREE.DoubleSide }), //BACK
+                            ];
+                            var material = new THREE.MeshFaceMaterial(cubeMaterials);
+                            var robot = new THREE.Mesh(geometry, material);
+                            robot.position.y = 0.15;
+
+                            var group = new THREE.Group();
+                            group.add(robot);
+
+                            scene.add(group);
+                            worldObjects[command.parameters.guid] = group;
+                        
+                        }
+                    }
+ 
+                    var object = worldObjects[command.parameters.guid];
+
+                    object.position.x = command.parameters.x;
+                    object.position.y = command.parameters.y;
+                    object.position.z = command.parameters.z;
+
+                    object.rotation.x = command.parameters.rotationX;
+                    object.rotation.y = command.parameters.rotationY;
+                    object.rotation.z = command.parameters.rotationZ;
+                }
+            }
+
+            init();
+            animate();
+        }
+    </script>
+
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="MTLLoader.js"></script>
+    <script src="OBJLoader.js"></script>
+</body>
+
+</html>
