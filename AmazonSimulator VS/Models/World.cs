@@ -28,13 +28,13 @@ namespace Models {
             a.Move(0, 0, 0);
         }
 
-        private Robot CreateRobot(double x, double y, double z) {
+        public Robot CreateRobot(double x, double y, double z) {
             Robot r = new Robot(x,y,z,0,0,0);
             worldObjects.Add(r);
             return r;
         }
 
-        private Robot CreateRobot2(double x, double y, double z)
+        public Robot CreateRobot2(double x, double y, double z)
         {
             Robot r = new Robot(x, y, z, 0, 0, 0);
             worldObjects.Add(r);

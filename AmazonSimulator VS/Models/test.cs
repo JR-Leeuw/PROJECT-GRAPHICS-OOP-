@@ -25,7 +25,7 @@ namespace Models
 
         public bool needsUpdate = true;
 
-        public test(double x, double y, double z, double rotationX, double rotationY, double rotationZ)
+        private test(double x, double y, double z, double rotationX, double rotationY, double rotationZ)
         {
             this.type = "test";
             this.guid = Guid.NewGuid();
