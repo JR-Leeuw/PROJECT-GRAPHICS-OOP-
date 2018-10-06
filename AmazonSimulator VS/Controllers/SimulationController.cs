@@ -40,6 +40,11 @@ namespace Controllers {
             }
         }
 
+        internal void StartLogic()
+        {
+            w.Logic();
+        }
+
         public void Simulate() {
             running = true;
 

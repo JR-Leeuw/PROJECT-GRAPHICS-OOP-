@@ -24,9 +24,6 @@ namespace moving
         {
             return Z;
         }
-
-
-
-
     }
 }
+

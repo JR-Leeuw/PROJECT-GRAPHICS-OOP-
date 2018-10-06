@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="moving\coordinaten.cs" />
+    <Content Include="moving\Graph.cs" />
+    <Content Include="moving\GraphAlgorithm.cs" />
+    <Content Include="moving\movement_control.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
   </ItemGroup>
 

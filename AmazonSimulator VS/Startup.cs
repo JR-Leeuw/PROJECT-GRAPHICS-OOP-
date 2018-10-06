@@ -29,6 +29,9 @@ namespace AmazonSimulator_VS
             InstanceCaller.Start();
 
             Configuration = configuration;
+
+            //start logic:
+            simulationController.StartLogic();
         }
 
         public IConfiguration Configuration { get; }
