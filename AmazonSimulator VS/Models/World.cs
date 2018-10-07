@@ -24,9 +24,15 @@ namespace Models
         Propeller p;
         RoadOBJ Rob;
         RoadOBJ Roa;
-        Bocht b;
+        Cow c;
+        Cow c1;
         Gate gg;
-        Fence f;
+
+        Silo s1;
+        Windmill wi;
+        Barn Ba;
+        Woodenpath wo;
+        
         Fence f1;
         Fence f2;
         Fence f3;
@@ -34,92 +40,108 @@ namespace Models
         Fence f5;
         Fence f6;
         Fence f7;
-        Fence f8;
-        Fence f9;
-        Fence f10;
-        Fence f11;
-        Fence f12;
-        Fence f13;
         Fence f14;
         Fence f15;
         Fence f16;
         Fence f17;
-        Fence f18;
-        Fence f19;
+
+        Wheat w1;
+        Wheat w2;
+        Wheat w3;
+        Wheat w4;
+        Wheat w5;
+        Wheat w6;
+        Wheat w7;
+
+        
+        //Fence f18;
+        //Fence f19;
 
         public World() {
             r = CreateRobot(0,0,0);
             r.Move(0, 0, 0);
+
+            Ba = CreateBarn(0, 0, 0);
+            Ba.Move(0, 0, -28);
+
+            wi = CreateWindmill(0, 0, 0);
+            wi.Move(-13, 4.5m, -23);
+
+            wo = CreateWoodenpath(0, 0, 0);
+            wo.Move(-1, -0.2m, -13);
+
             a = CreateRobot(0, 0, 0);
             a.Move(0, 0, 0);
+
             t = CreateTractor(0, 0, 0);
             t.Rotate(0, -1.5m, 0);
             t.Move(25, 0, 5);
+
             p = CreatePropeller(0, 0, 0);
             p.Move(-12.76m, 9.1m, -21.5m);
             p.Rotate(0,0,0);
+
             Rob = CreateRoadOBJ(0, 0, 0);
             Rob.Move(-7.483m, -0.5455m, 4);
             Roa = CreateRoadOBJ(0, 0, 0);
             Roa.Move(7.483m, -0.5455m, 4);
+
             gg = CreateGate(0, 0, 0);
-            gg.Move(0, 0, -7);
-            f = CreateFence(0, 0, 0);
-            f.Move(2.8m, 0, -7);
+            gg.Move(-0.9m, 0, -14.4m);
+
+            c = CreateCow(0, 0, 0);
+            c.Move(0, 0, -16);
+            c1 = CreateCow(0, 0, 0);
+            c1.Move(2.8m, 0, -19);
+            c1.Rotate(0, 1.2m, 0);
             f1 = CreateFence(0, 0, 0);
-            f1.Move(-2.8m, 0, -7);
+            f1.Move(-3.6m, 0, -14.4m);
             f2 = CreateFence(0, 0, 0);
-            f2.Move(-5.3m, 0, -7);
+            f2.Move(1.8m, 0, -14.4m);
             f3 = CreateFence(0, 0, 0);
-            f3.Move(5.3m, 0, -7);
+            f3.Move(4.3m, 0, -14.4m);
             f4 = CreateFence(0, 0, 0);
-            f4.Move(6.55m, 0, -8.3m);
+            f4.Move(5.55m, 0, -15.6m);
             f4.Rotate(0, 1.57m, 0);
             f5 = CreateFence(0, 0, 0);
-            f5.Move(6.55m, 0, -10.8m);
+            f5.Move(5.55m, 0, -18.1m);
             f5.Rotate(0, 1.57m, 0);
             f6 = CreateFence(0, 0, 0);
-            f6.Move(6.55m, 0, -13.3m);
+            f6.Move(5.55m, 0, -20.6m);
             f6.Rotate(0, 1.57m, 0);
             f7 = CreateFence(0, 0, 0);
-            f7.Move(6.55m, 0, -15.8m);
+            f7.Move(5.55m, 0, -23.1m);
             f7.Rotate(0, 1.57m, 0);
-            f8 = CreateFence(0, 0, 0);
-            f8.Move(6.55m, 0, -18.3m);
-            f8.Rotate(0, 1.57m, 0);
-            f9 = CreateFence(0, 0, 0);
-            f9.Move(5.26m, 0, -19.56m);
-            f10 = CreateFence(0, 0, 0);
-            f10.Move(2.76m, 0, -19.56m);
-            f11 = CreateFence(0, 0, 0);
-            f11.Move(0.26m, 0, -19.56m);
-            f12 = CreateFence(0, 0, 0);
-            f12.Move(-2.24m, 0, -19.56m);
-            f13 = CreateFence(0, 0, 0);
-            f13.Move(-4.74m, 0, -19.56m);
             f14 = CreateFence(0, 0, 0);
-            f14.Move(-6.60m, 0, -8.3m);
+            f14.Move(-5, 0, -15.5m);
             f14.Rotate(0, 1.57m, 0);
             f15 = CreateFence(0, 0, 0);
-            f15.Move(-6.60m, 0, -10.8m);
+            f15.Move(-5, 0, -18); 
             f15.Rotate(0, 1.57m, 0);
             f16 = CreateFence(0, 0, 0);
-            f16.Move(-6.60m, 0, -13.3m);
+            f16.Move(-5, 0, -20.5m);
             f16.Rotate(0, 1.57m, 0);
             f17 = CreateFence(0, 0, 0);
-            f17.Move(-6.60m, 0, -15.8m);
+            f17.Move(-5m, 0, -23);
             f17.Rotate(0, 1.57m, 0);
-            f18 = CreateFence(0, 0, 0);
-            f18.Move(-6.60m, 0, -18.3m);
-            f18.Rotate(0, 1.57m, 0);
-            f19 = CreateFence(0, 0, 0);
-            f19.Move(-5.35m, 0, -19.56m);
-           
 
+            w1 = CreateWheat(0, 0, 0);
+            w1.Move(-4.8m, 0, -13);
+            w2 = CreateWheat(0, 0, 0);
+            w2.Move(-3.8m, 0, -13);
+            w3 = CreateWheat(0, 0, 0);
+            w3.Move(-2.8m, 0, -13);
+            w4 = CreateWheat(0, 0, 0);
+            w4.Move(1.1m, 0, -13);
+            w5 = CreateWheat(0, 0, 0);
+            w5.Move(1.1m, 0, -13);
+            w6 = CreateWheat(0, 0, 0);
+            w6.Move(2.1m, 0, -13);
+            w7 = CreateWheat(0, 0, 0);
+            w7.Move(3.1m, 0, -13);
 
-
-
-
+            s1 = CreateSilo(0, 0, 0);
+            s1.Move(13, 4.5m, -23);
 
         }
 
@@ -167,7 +189,46 @@ namespace Models
             worldObjects.Add(g);
             return g;
         }
+        private Cow CreateCow(decimal x, decimal y, decimal z)
+        {
+            Cow c = new Cow(x, y, z, 0, 0, 0);
+            worldObjects.Add(c);
+            return c;
+        }
+        private Wheat CreateWheat(decimal x, decimal y, decimal z)
+        {
+            Wheat w = new Wheat(x, y, z, 0, 0, 0);
+            worldObjects.Add(w);
+            return w;
+        }
 
+        private Silo CreateSilo(decimal x, decimal y, decimal z)
+        {
+            Silo s = new Silo(x, y, z, 0, 0, 0);
+            worldObjects.Add(s);
+            return s;
+        }
+
+        private Windmill CreateWindmill(decimal x, decimal y, decimal z)
+        {
+            Windmill i = new Windmill(x, y, z, 0, 0, 0);
+            worldObjects.Add(i);
+            return i;
+        }
+
+        private Barn CreateBarn(decimal x, decimal y, decimal z)
+        {
+            Barn b = new Barn(x, y, z, 0, 0, 0);
+            worldObjects.Add(b);
+            return b;
+        }
+
+        private Woodenpath CreateWoodenpath(decimal x, decimal y, decimal z)
+        {
+            Woodenpath o = new Woodenpath(x, y, z, 0, 0, 0);
+            worldObjects.Add(o);
+            return o;
+        }
 
         public IDisposable Subscribe(IObserver<Command> observer)
         {
@@ -190,6 +251,7 @@ namespace Models
                 obs.OnNext(new UpdateModel3DCommand(m3d));
             }
         }
+        
 
         public bool Update(int tick)
         {

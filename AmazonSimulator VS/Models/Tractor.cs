@@ -14,46 +14,46 @@ namespace Models
             this.type = "tractor";
         }
 
-        public void bringcargo()
-        {
-                if(x > 0)
-            {
-                Move(x - 0.16m, y, z);
-            }
-        }
+        //public void bringcargo()
+        //{
+        //        if(x > 0)
+        //    {
+        //        move(x - 0.16m, y, z);
+        //    }
+        //}
 
-        public void takecargo()
-        {
-            if (x > -15 && x <= 0)
-            {
-                Move(x - 0.16m, y, z);
-            }
-        }
+        //public void takecargo()
+        //{
+        //    if (x > -15 && x <= 0)
+        //    {
+        //        Move(x - 0.16m, y, z);
+        //    }
+        //}
 
-        public void cargohandler()
-        {
-            if(needcargo == true)
-            {
-                bringcargo();
-                needcargo = false;
-            }
+        //public void cargohandler()
+        //{
+        //    if(needcargo == true)
+        //    {
+        //        bringcargo();
+        //        needcargo = false;
+        //    }
 
-            else
-            {
-                takecargo();
-                needcargo = true;
-            }
-        }
+        //    else
+        //    {
+        //        takecargo();
+        //        needcargo = true;
+        //    }
+        //}
 
-        public override bool Update(int tick)
-        {
-            cargohandler();
-            if (needsUpdate)
-            {
-                needsUpdate = false;
-                return true;
-            }
-            return false;
-        }
+        //public override bool Update(int tick)
+        //{
+        //    cargohandler();
+        //    if (needsUpdate)
+        //    {
+        //        needsUpdate = false;
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

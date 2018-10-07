@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Cow.cs" />
+    <Compile Remove="Models\Fence.cs" />
+    <Compile Remove="Models\Gate.cs" />
+    <Compile Remove="Models\RoadOBJ.cs" />
+    <Compile Remove="Models\Wheat.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="moving\coordinaten.cs" />
     <Content Include="moving\Graph.cs" />
     <Content Include="moving\GraphAlgorithm.cs" />

@@ -21,30 +21,26 @@
             var camera, scene, renderer;
             var cameraControls;
 
-
-
             function init() {
-                camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-                cameraControls = new THREE.OrbitControls(camera);
-                camera.position.z = 15;
-                camera.position.y = 5;
-                camera.position.x = 15;
-                cameraControls.update();
-                if (camera.position.y < 1.5) {
-                    camera.position.y = 1.5;
-                }
+                
+                    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+                    cameraControls = new THREE.OrbitControls(camera);
+                    camera.position.z = 15;
+                    camera.position.y = 5;
+                    camera.position.x = 15;
+                    cameraControls.update();
+                    if (camera.position.y < 1.5) {
+                        camera.position.y = 1.5;
+                    }
 
                 scene = new THREE.Scene();
-
-
 
                 renderer = new THREE.WebGLRenderer({ antialias: true });
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight + 5);
                 renderer.shadowMapEnabled = true;
-                renderer.shadowMap.type = THREE.BasicShadowMap
+                renderer.shadowMap.type = THREE.PCFShadowMap;
                 
-
                 document.body.appendChild(renderer.domElement);
 
                 window.addEventListener('resize', onWindowResize, false);
@@ -83,80 +79,18 @@
                 skybox.position.x = 0;
                 skybox.position.z = 0;
                 skybox.position.y = 0;
+                skybox.receiveShadow = true;
                 scene.add(skybox);
 
                 var direcLight = new THREE.DirectionalLight(0xffffff, 2);
-                direcLight.position.set(512, 300, -120);
+                direcLight.position.set(150, 170, -512);
                 direcLight.castShadow = true;
-                direcLight.shadow.camera.near = 1;
-                direcLight.shadow.camera.far = 25;
-                direcLight.shadowMapHeight = 512;
+                direcLight.target = plane;
                 scene.add(direcLight);
 
-
                 var light = new THREE.AmbientLight(0x404040);
-                light.intensity = 0.2;
-                scene.add(light);
-
-                //rocks = new THREE.Group();
-
-                //scene.add(rocks);
-
-                silo = new THREE.Group();
-                silo.position.z = -23;
-                silo.position.y = 4.8;
-                silo.position.x = 12.5;
-                silo.castShadow = true;
-                
-                scene.add(silo);
-
-                badwindmill = new THREE.Group();
-                badwindmill.position.z = -23; //-17
-                badwindmill.position.y = 4.5;
-                badwindmill.position.x = -13; //-6
-                scene.add(badwindmill);
-
-                Barn = new THREE.Group();
-                Barn.position.z = 0; //-17
-                Barn.position.y = 0;
-                Barn.position.x = 0; //-6
-                scene.add(Barn);
-
-
-
-
-
-                LoadOBJModel("Models/modelWindmill/", "model.obj", "Models/modelWindmill/", "materials.mtl", (mesh) => {
-                    mesh.scale.set(10, 10, 10);
-
-                    badwindmill.add(mesh);
-
-                    mesh.rotation.y = Math.PI;
-                    awindmill = windmill;
-
-                    mesh.receiveShadow = true;
-                    mesh.castShadow = true;
-
-
-                });
-
-                LoadOBJModel("Models/Silo/", "PUSHILIN_silo.obj", "Models/Silo/", "PUSHILIN_silo.mtl", (mesh) => {
-                    mesh.scale.set(4, 4, 4);
-                    silo.add(mesh);
-                    //mesh.rotation.y = Math.PI / 2
-                    asilo = silo;
-                });
-                LoadOBJModel("Models/grass/", "grass.obj", "Models/grass/", "grass.mtl", (mesh) => {
-                    mesh.scale.set(1, 1, 1);
-                    barn.add(mesh);
-                    abarn = barn;
-                });
-                LoadOBJModel("Models/BarnOpen/", "BarnOpen.obj", "Models/BarnOpen/", "BarnOpen.mtl", (mesh) => {
-                    mesh.scale.set(1, 1, 1);
-                    Barn.add(mesh);
-                    //mesh.rotation.y = Math.PI / 2
-                    aBarn = Barn;
-                });
+                light.intensity = 2;
+                scene.add(light); 
             }
 
             /**
@@ -167,26 +101,7 @@
 * @param {string} tetureName The name of the texture of the model (MTL file)
 * @param {function{THREE.Mesh}: void} onload The function to be called once the model is loaded and available
 //*/
-            function addpointlight(object, color, x, y, z, intensity, distance) {
-                var light = new three.pointlight(color, intensity, distance);
-                light.position.set(x, y, z);
-                object.add(light);
-
-                var box = new three.mesh(new three.boxgeometry(1, 1, 1), new three.meshbasicmaterial({ color: 0xffffff }));
-                box.position.set(x, y, z);
-                object.add(box);
-            }
-            function addspotlight(object, color, x, y, z, tx, ty, tz) {
-                var spotlight = new three.spotlight(color, 1, 100, 0.5, 2, 2);
-                spotlight.position.set(x, y, z);
-
-                spotlight.castshadow = true;
-
-                object.add(spotlight);
-
-                object.add(spotlight.target);
-                spotlight.target.position.set(tx, ty, tz);
-            }
+            
             function onWindowResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
@@ -197,6 +112,8 @@
                 requestAnimationFrame(animate);
                 cameraControls.update();
                 renderer.render(scene, camera);
+                
+
             }
 
             exampleSocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/connect_client");
@@ -223,35 +140,26 @@
                     case "robot":
                         var robot = new Robot();
                         group.add(robot);
-
-
                         break;
 
                     case "tractor":
                         var tractor = new Tractor();
                         group.add(tractor);
-
                         break;
 
                     case "propeller":
                         var propeller = new Propeller();
                         group.add(propeller);
-
-
                         break;
 
                     case "HayStack":
                         var HayStack = new Haystack();
                         group.add(HayStack);
-
-
                         break;
 
                     case "RoadOBJ":
                         var RoadOBJ = new roadOBJ();
                         group.add(RoadOBJ);
-
-
                         break;
 
                     case "Gate":
@@ -262,8 +170,38 @@
                     case "Fence":
                         var fence = new Fence();
                         group.add(fence);
+                        break;
 
+                    case "cow":
+                        var cow = new Cow();
+                        group.add(cow);
+                        break;
 
+                    case "wheat":
+                        var wheat = new Wheat();
+                        group.add(wheat);
+                        break;
+
+                    case "Silo":
+                        var silo = new Silo();
+                        group.add(silo);
+                        break;
+
+                    case "Barn":
+                        var barn = new Barn();
+                        group.add(barn);
+                        break;
+
+                    case "Windmill":
+                        var windmill = new Windmill();
+                        group.add(windmill);
+                        break;
+
+                    case "Woodenpath":
+                        var woodenpath = new Woodenpath();
+                        group.add(woodenpath);
+                        
+                        
                 }
             }
             function ObjectPlacement(command) {
@@ -280,6 +218,7 @@
 
             init();
             animate();
+            
     }
 
             
@@ -293,6 +232,7 @@
     <script src="SceneLoader.js"></script>
     <script src="MeshPhongMaterial.js"></script>
     <script src="WebGLShadowMap.js"></script>
+    <script src="DirectionalLightHelper.js"></script>
     
 </body>
 
